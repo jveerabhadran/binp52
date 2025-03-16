@@ -8,7 +8,7 @@ sc.settings.set_figure_params(dpi=80, facecolor="white", frameon=False)
 
 
 # Load the preprocessed AnnData object
-adata = sc.read("lognorm_dimensionality_reduced.h5ad")
+adata = sc.read("dimensionality_reduced_scran_combat.h5ad")
 
 
 # Step 10.1: Construct the KNN graph on the PCA-reduced space
@@ -51,7 +51,7 @@ for key in res_keys:
 
 
 # Save the updated AnnData object with clustering results
-output_file = "lognorm_clustered.h5ad"
+output_file = "ko_scran_clustered.h5ad"
 adata.write(output_file)
 
 

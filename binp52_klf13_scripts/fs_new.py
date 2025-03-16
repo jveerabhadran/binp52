@@ -39,7 +39,7 @@ anndata2ri.activate()
 with localconverter(anndata2ri.converter):
      ro.globalenv["adata"] = adata
      ro.r('''
-         library(scry)
+        library(scry)
         sce = devianceFeatureSelection(adata, assay="X")
         binomial_deviance = rowData(sce)$binomial_deviance
     ''')

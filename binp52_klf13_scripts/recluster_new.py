@@ -8,12 +8,12 @@ import anndata
 
 
 # Load data
-adata = anndata.read_h5ad("scran_annotated.h5ad")
+adata = anndata.read_h5ad("clustered_scran_annotated_ko.h5ad")
 
 
 # Select GABAergic cells with expression > 0 in any marker gene
 #gaba_marker_genes = ['Gad2', 'Gad1', 'Dlx1', 'Arx', 'Slc32a1', 'Dlx5', 'Dlx6', 'Lhx6', 'Lhx8']
-gaba_marker_genes = ['Gad2', 'Gad1', 'Dlx1', 'Dlx2', 'Dlx5', 'Dlx6', 'Slc32a1']
+gaba_marker_genes = ['Gad2', 'Gad1', 'Dlx1', 'Dlx2']
 gaba_marker_genes = [g for g in gaba_marker_genes if g in adata.var_names]
 
 
@@ -131,7 +131,7 @@ adata_gaba.obs["cell_cycle_phase"] = np.where(
 
 
 # Tabulate cell cycle phase assignment by cluster
-cluster_phase_counts = adata_gaba.obs.groupby(['leiden_res0_5', 'cell_cycle_phase']).size().unstack(fill_value=0)
+cluster_phase_counts = adata_gaba.obs.groupby(['leiden_res0_7', 'cell_cycle_phase']).size().unstack(fill_value=0)
 
 
 # Visualize UMAP, colored by phase
@@ -189,7 +189,7 @@ sc.pl.umap(adata_gaba, color=[f"{ln}_score" for ln in marker_sets.keys()])
 # 1. UMAP with only lineage marker set names as cluster labels (e.g. "MGE Neuroblast")
 
 
-key_for_umap = leiden_keys[0] # using resolution 0.8
+key_for_umap = leiden_keys[2] # using resolution 0.8
 
 
 labels = adata_gaba.obs[key_for_umap].astype(str).values
@@ -249,7 +249,7 @@ marker_list = [g for g in all_markers if g in adata_gaba.var_names]
 
 
 # Create a temporary AnnData with only these marker genes
-adata_marker_subset = adata_gaba[:, marker_list].copy()
+adata_marker_subset = adata[:, marker_list].copy()
 
 
 # Run differential ranking only on marker genes subset
@@ -543,6 +543,333 @@ plt.tight_layout()
 plt.show()
 
 
+import matplotlib.pyplot as plt
+
+# Count cells per cluster and condition
+cluster_condition_counts = (
+    adata_gaba.obs
+    .groupby([chosen_key, 'condition'])
+    .size()
+    .unstack(fill_value=0)
+)
+
+# Calculate proportions within each cluster
+cluster_condition_proportions = cluster_condition_counts.div(
+    cluster_condition_counts.sum(axis=1),
+    axis=0
+)
+
+# Optional: set cluster order if they are numeric strings
+cluster_condition_proportions.index = cluster_condition_proportions.index.astype(str)
+cluster_order = sorted(cluster_condition_proportions.index, key=lambda x: int(x))
+cluster_condition_proportions = cluster_condition_proportions.loc[cluster_order]
+
+# Rename legend labels exactly how you want
+cluster_condition_proportions = cluster_condition_proportions.rename(
+    columns={
+        "WT": "WT",
+        "HT": r"$\it{Klf13}$ +/-",
+        "Klf13 +/-": r"$\it{Klf13}$ +/-"
+    }
+)
+
+# Choose soft colors
+colors = ["#9ecae1", "#fdae6b"]   # light blue, light orange
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+cluster_condition_proportions.plot(
+    kind="bar",
+    stacked=True,           # this makes them on top of each other
+    width=0.8,
+    color=colors,
+    edgecolor="none",       # remove outlines
+    linewidth=0,
+    ax=ax
+)
+
+ax.set_ylabel("Proportion of Cells")
+ax.set_xlabel("Cluster")
+ax.set_title("Proportion of WT vs Klf13 +/- Cells per Cluster")
+ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
+
+# Clean legend
+ax.legend(
+    title="Condition",
+    frameon=False
+)
+
+# Optional: remove top/right spines for cleaner look
+ax.spines["top"].set_visible(False)
+ax.spines["right"].set_visible(False)
+
+plt.tight_layout()
+plt.show()
+
+
+import matplotlib.pyplot as plt
+
+# Count cells per cluster and condition
+cluster_condition_counts = (
+    adata_gaba.obs
+    .groupby([chosen_key, 'condition'])
+    .size()
+    .unstack(fill_value=0)
+)
+
+# Calculate proportions within each cluster
+cluster_condition_proportions = cluster_condition_counts.div(
+    cluster_condition_counts.sum(axis=1),
+    axis=0
+)
+
+# Optional: numeric cluster order
+cluster_condition_proportions.index = cluster_condition_proportions.index.astype(str)
+cluster_order = sorted(cluster_condition_proportions.index, key=lambda x: int(x))
+cluster_condition_proportions = cluster_condition_proportions.loc[cluster_order]
+
+# Rename legend labels
+cluster_condition_proportions = cluster_condition_proportions.rename(
+    columns={
+        "WT": "WT",
+        "KO": r"$\it{Klf13}$ -/-",
+        "Klf13 -/-": r"$\it{Klf13}$ -/-"
+    }
+)
+
+# Soft colors
+colors = ["#9ecae1", "#fdd0a2"]   # light blue, light peach
+
+fig, ax = plt.subplots(figsize=(8, 4.5))
+
+cluster_condition_proportions.plot(
+    kind="bar",
+    stacked=True,
+    width=0.75,
+    color=colors,
+    edgecolor="none",
+    linewidth=0,
+    ax=ax
+)
+
+ax.set_ylabel("Proportion of Cells")
+ax.set_xlabel("Cluster")
+ax.set_title("WT and Klf13 -/- proportions by cluster", pad=10)
+ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
+
+# Clean plot appearance
+ax.spines["top"].set_visible(False)
+ax.spines["right"].set_visible(False)
+ax.grid(False)
+
+# Make plotting area smaller and centered
+ax.set_position([0.12, 0.2, 0.55, 0.65])
+
+# Put legend away from plot
+ax.legend(
+    title="Condition",
+    frameon=False,
+    loc="center left",
+    bbox_to_anchor=(1.02, 0.5)
+)
+
+plt.show()
+
+import matplotlib.pyplot as plt
+
+# cluster_names = {
+#     "0": "mge_prog_prdm16",
+#     "1": "cge_prog_nr2f2",
+#     "2": "mge_neu_sox6",
+#     "3": "lge_neu_ddah1",
+#     "4": "mge_neu_st18",
+#     "5": "lge_prog_ebf1",
+#     "6": "lge_prog_isl1",
+#     "7": "mge_prog_lhx6",
+#     "8": "mge_neu_erbb4",
+#     "9": "mge_prog_sp9",
+#     "10": "cge_prog_sp8",
+#     "11": "cge_prog_pax6",
+#     "12": "mge_prog_nkx21",
+#     "13": "cge_neu_synpr",
+#     "14": "cge_prog_ascl1",
+# }
+
+import matplotlib.pyplot as plt
+
+# New cluster names (0–13)
+cluster_names = {
+    "0":  "cge_prog_nr2f1",
+    "1":  "mge_prog_lhx6",
+    "2":  "lge_neu_ddah1",
+    "3":  "cge_prog_sp8",
+    "4":  "mge_prog_sp9",
+    "5":  "cge_prog_ascl1",
+    "6":  "mge_prog_prdm16",
+    "7":  "mge_neu_errb4",
+    "8":  "lge_prog_isl1",
+    "9":  "mge_neu_foxp1",
+    "10": "cge_prog_nr2f2",
+    "11": "cge_neu_synpr",
+    "12": "cge_prog_pax6",
+    "13": "lge_prog_ebf1",   # keep this key around for renaming
+}
+
+# Count cells per cluster and condition
+cluster_condition_counts = (
+    adata_gaba.obs
+    .groupby([chosen_key, 'condition'])
+    .size()
+    .unstack(fill_value=0)
+)
+
+# Convert cluster IDs to string
+cluster_condition_counts.index = cluster_condition_counts.index.astype(str)
+
+# Remove cluster "13"
+cluster_condition_counts = cluster_condition_counts.loc[
+    cluster_condition_counts.index != "13"
+]
+
+# Order clusters numerically (0,1,...,12 only, since 13 is gone)
+cluster_order = [str(i) for i in range(14) if str(i) in cluster_condition_counts.index]
+cluster_condition_counts = cluster_condition_counts.loc[cluster_order]
+
+# Rename cluster numbers to cluster names (only for clusters that remain)
+cluster_condition_counts = cluster_condition_counts.rename(index=cluster_names)
+
+# Calculate proportions within each cluster
+cluster_condition_proportions = cluster_condition_counts.div(
+    cluster_condition_counts.sum(axis=1),
+    axis=0
+)
+
+# Rename legend labels (WT and Klf13+/-)
+cluster_condition_proportions = cluster_condition_proportions.rename(
+    columns={
+        "WT": "WT",
+        "HT": r"$\it{Klf13}$ +/-",
+        "Klf13 +/-": r"$\it{Klf13}$ +/-"
+    }
+)
+
+# Soft colors
+colors = ["#9ecae1", "#fdd0a2"]
+
+fig, ax = plt.subplots(figsize=(8, 4.5))
+
+cluster_condition_proportions.plot(
+    kind="bar",
+    stacked=True,
+    width=0.75,
+    color=colors,
+    edgecolor="none",
+    linewidth=0,
+    ax=ax
+)
+
+ax.set_ylabel("Proportion of Cells")
+ax.set_xlabel("Cluster")
+ax.set_title(r"WT vs $\it{Klf13}$ +/- proportions by cluster", pad=10)
+ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
+
+# Clean look
+ax.spines["top"].set_visible(False)
+ax.spines["right"].set_visible(False)
+ax.grid(False)
+
+# Make the plotting area smaller and centered
+ax.set_position([0.12, 0.2, 0.55, 0.65])
+
+# Put legend away from the plot
+ax.legend(
+    title="Condition",
+    frameon=False,
+    loc="center left",
+    bbox_to_anchor=(1.02, 0.5)
+)
+
+plt.show()
+
+# Count cells per cluster and condition
+cluster_condition_counts = (
+    adata_gaba.obs
+    .groupby([chosen_key, 'condition'])
+    .size()
+    .unstack(fill_value=0)
+)
+
+# Convert cluster IDs to string
+cluster_condition_counts.index = cluster_condition_counts.index.astype(str)
+
+# Remove cluster 14
+cluster_condition_counts = cluster_condition_counts.loc[
+    cluster_condition_counts.index != "14"
+]
+
+# Order clusters numerically
+cluster_order = [str(i) for i in range(15) if i != 14 and str(i) in cluster_condition_counts.index]
+cluster_condition_counts = cluster_condition_counts.loc[cluster_order]
+
+# Rename cluster numbers to cluster names
+cluster_condition_counts = cluster_condition_counts.rename(index=cluster_names)
+
+# Calculate proportions within each cluster
+cluster_condition_proportions = cluster_condition_counts.div(
+    cluster_condition_counts.sum(axis=1),
+    axis=0
+)
+
+# Rename legend labels
+cluster_condition_proportions = cluster_condition_proportions.rename(
+    columns={
+        "WT": "WT",
+        "KO": r"$\it{Klf13}$ -/-",
+        "Klf13 -/-": r"$\it{Klf13}$ -/-"
+    }
+)
+
+# Soft colors
+colors = ["#9ecae1", "#fdd0a2"]
+
+fig, ax = plt.subplots(figsize=(8, 4.5))
+
+cluster_condition_proportions.plot(
+    kind="bar",
+    stacked=True,
+    width=0.75,
+    color=colors,
+    edgecolor="none",
+    linewidth=0,
+    ax=ax
+)
+
+ax.set_ylabel("Proportion of Cells")
+ax.set_xlabel("Cluster")
+ax.set_title(r"WT vs $\it{Klf13}$ -/- proportions by cluster", pad=10)
+ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
+
+# Clean look
+ax.spines["top"].set_visible(False)
+ax.spines["right"].set_visible(False)
+ax.grid(False)
+
+# Make the plotting area smaller and centered
+ax.set_position([0.12, 0.2, 0.55, 0.65])
+
+# Put legend away from the plot
+ax.legend(
+    title="Condition",
+    frameon=False,
+    loc="center left",
+    bbox_to_anchor=(1.02, 0.5)
+)
+
+plt.show()
+
+
+#====================================================================================
+
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -567,5 +894,5 @@ plt.legend(title="Batch / animal", bbox_to_anchor=(1.05, 1), loc="upper left")
 plt.tight_layout()
 plt.show()
 
-adata_gaba.write("gaba_reclust_log_05.h5ad")
+adata_gaba.write("gaba_reclust_scran_new_05.h5ad")
 print("All done!")
