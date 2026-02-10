@@ -2,6 +2,8 @@
 
 ## BINP52: Masters Thesis
 
+**Note: The Repository is still under construction and the README is not fully written or formatted.
+
 This repository contains a fully reproducible, pipeline for single-nucleus RNA-seq quality control and downstream analysis using Python and R.  The pipeline is designed for batch-processing of multiple samples, robust error handling, and clear separation of each analysis step.
 
 ---
