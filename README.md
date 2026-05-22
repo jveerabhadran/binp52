@@ -8,7 +8,7 @@ Institution: Lund University
 Year: 2026
 
 ---
-Table of Contents
+**Table of Contents**
 1. Project Overview
 2. Repository Structure
 3. Pipeline Steps
@@ -22,7 +22,7 @@ Table of Contents
 11. Contact
 ---
 
-Project Overview
+**Project Overview**
 
 This repository contains a batch-processing pipeline for single-nucleus RNA sequencing (snRNA-seq) data, developed as part of the BINP52 Master's thesis. The pipeline covers all major steps from raw count matrix ingestion to cell type annotation and subcluster analysis, with a focus on:
 
@@ -36,7 +36,7 @@ The pipeline is designed for multi-sample batch processing with robust error han
 
 ---
 
-Repository Structure
+**Repository Structure**
 ```
 binp52/
 │
@@ -63,6 +63,7 @@ binp52/
 
 ---
 **Input Data**
+
 This is how a raw count matrix typically looks like. Each row represents a gene, and each column represents a cell. The values are raw, unnormalized read counts.
 
 | **Gene**  | **Cell1** | **Cell2** | **Cell3** | **Cell4** |
