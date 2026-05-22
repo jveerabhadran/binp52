@@ -35,6 +35,8 @@ This repository contains a batch-processing pipeline for single-nucleus RNA sequ
 - Normalisation and feature selection using scran and Scanpy
 - Dimensionality reduction, clustering, and annotation
 - GABAergic neuron subclustering
+- Compositional data analysis
+- Trajectory analysis
   
 The pipeline is designed for multi-sample batch processing with robust error handling and clear separation of each analysis step.
 
@@ -47,12 +49,17 @@ binp52/
 ├── notebooks/                    # Jupyter notebooks (interactive analysis)
 │   ├── 01_quality_filtering.ipynb
 │   ├── 02_normalization.ipynb
-│   ├── 03_concatenation.ipynb
+│   ├── 03_batch_correction.ipynb
 │   ├── 04_feature_selection.ipynb
 │   ├── 05_dimensionality_reduction.ipynb
 │   ├── 06_clustering.ipynb
 │   ├── 07_annotation.ipynb
-│   └── 08_gaba_recluster.ipynb
+│   ├── 08_reclustering.ipynb
+│   ├── 09_transcription_factor_analysis.ipynb
+│   ├── 10_trajectory_analysis.ipynb
+│   └── 11_coda.ipynb
+|   ├── concatenation.ipynb
+|   
 │
 │
 ├── Data/                         # Raw count matrices (.csv)
@@ -77,6 +84,9 @@ binp52/
 | 6 | `clustering` | Leiden clustering on combined dataset | Cluster assignments + plots |
 | 7 | `annotation` | Cell type annotation of clusters | Annotated `.h5ad` + summary tables |
 | 8 | `gaba_recluster` | Subclustering of GABAergic neuron population | Subclustered `.h5ad` + plots |
+| 9 | `transcription_factor_analysis` | Transcription factor activity scoring across clusters | TF activity scores + plotss |
+| 10 | `trajectory_analysis` | Pseudotime trajectory inference across cell types |  Trajectory plots + pseudotime `.h5ad` |
+| 11 | `coda` | Compositional & expressional shift analysis across conditions | Differential abundance results + plots |
 
 ---
 **Setup & Installation**
