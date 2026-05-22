@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+*.egg-info/
+.env
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# Data (add large files to gitignore, host elsewhere)
+Data/*.csv
+Data/*.h5ad
+*.h5
+*.loom
+
+# OS
+.DS_Store
+Thumbs.db
