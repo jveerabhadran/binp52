@@ -88,11 +88,11 @@ Conda (recommended) or pip
 
 ---
 Python Setup
-Option A — pip (simple):
+Option A - pip (simple):
 ```bash
 pip install -r requirements.txt
 ```
-Option B — Conda (recommended for full reproducibility):
+Option B - Conda (recommended for full reproducibility):
 ```bash
 conda create -n binp52 python=3.10
 conda activate binp52
@@ -122,9 +122,7 @@ Open the notebooks in order (`01_` → `08_`) from the `notebooks/` folder.
 
 **Data**
 
-A sample raw data (`.csv` count matrices) is included in this repository.
-
-Input format: Each sample is a raw count matrix (genes × cells) in `.csv` format, placed in `Data/`
+Input format: Each sample is a raw count matrix (genes × cells) in `.csv` format, a sample placed in `Data/`
 
 This is how a raw count matrix typically looks like. Each row represents a gene, and each column represents a cell. The values are raw, unnormalized read counts.
 
