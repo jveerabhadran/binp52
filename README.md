@@ -64,19 +64,6 @@ binp52/
 ├── CITATION.cff
 └── README.md
 ```
-
----
-**Input Data**
-
-This is how a raw count matrix typically looks like. Each row represents a gene, and each column represents a cell. The values are raw, unnormalized read counts.
-
-| **Gene**  | **Cell1** | **Cell2** | **Cell3** | **Cell4** |
-| --------- | --------- | --------- | --------- | --------- |
-| **GeneA** | 12        | 0         | 0         | 10        |
-| **GeneB** | 5         | 3         | 0         | 8         |
-| **GeneC** | 0         | 0         | 0         | 2         |
-| **GeneD** | 9         | 7         | 0         | 0         |
-
 ---
 **Pipeline Steps**
 
@@ -120,27 +107,40 @@ source("install.R")
 This installs all required Bioconductor and CRAN packages.
 > **Note:** `rpy2` and `anndata2ri` are Python packages that bridge Python and R. Make sure R is installed and accessible in your system PATH before installing them.
 ---
+
 **Usage**
+
 Run as Jupyter Notebooks (recommended)
 ```bash
 conda activate binp52
 jupyter notebook
 ```
 Open the notebooks in order (`01_` → `08_`) from the `notebooks/` folder.
+
 > Scripts must be run **in order**. Each step reads the output of the previous step.
 ---
-Data
-A sample raw data (`.csv` count matrices) is included in this repository due to file size.
-Input format: Each sample is a raw count matrix (genes × cells) in `.csv` format, placed in `Data/raw/`
-Processed outputs: Filtered and normalised `.h5ad` files are saved to `Data/processed/`
-> If you need access to the raw data used in this thesis, please contact the author.
+
+**Data**
+A sample raw data (`.csv` count matrices) is included in this repository.
+
+Input format: Each sample is a raw count matrix (genes × cells) in `.csv` format, placed in `Data/`
+
+This is how a raw count matrix typically looks like. Each row represents a gene, and each column represents a cell. The values are raw, unnormalized read counts.
+
+| **Gene**  | **Cell1** | **Cell2** | **Cell3** | **Cell4** |
+| --------- | --------- | --------- | --------- | --------- |
+| **GeneA** | 12        | 0         | 0         | 10        |
+| **GeneB** | 5         | 3         | 0         | 8         |
+| **GeneC** | 0         | 0         | 0         | 2         |
+| **GeneD** | 9         | 7         | 0         | 0         |
+
 ---
 **Reproducibility**
 
-All random seeds are fixed in both Python and R
-All package versions are pinned in `requirements.txt` and `install.R`
-Input/output paths are fully parameterised within each script
-The pipeline skips samples with errors and logs them, ensuring batch runs complete
+- All random seeds are fixed in both Python and R
+- All package versions are pinned in `requirements.txt` and `install.R`
+- Input/output paths are fully parameterised within each script
+- The pipeline skips samples with errors and logs them, ensuring batch runs complete
 
 ---
 **Troubleshooting**
