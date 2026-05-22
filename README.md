@@ -173,7 +173,7 @@ Or use the `CITATION.cff` file in this repository (GitHub renders a "Cite this r
 ---
 **License**
 
-This project is licensed under the MIT License — see the LICENSE file for details.
+This project is licensed under the MIT License, see the LICENSE file for details.
 
 ---
 **Contact**
