@@ -1,7 +1,7 @@
 # Single-nucleus RNA-seq Analysis Pipeline
 ## BINP52 - Master's Thesis
 
-> A fully reproducible pipeline for single-nucleus RNA-seq quality control and downstream analysis of **KLF13** knockout in the mouse brain, using Python and R.
+> A fully reproducible pipeline for single-nucleus RNA-seq quality control and downstream analysis of _Klf13_ knockout in the mouse brain, using Python and R.
 
 > Author: Jyothishree Veerabhadran
 
