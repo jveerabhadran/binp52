@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this pipeline or code, please cite it using the metadata below."
+title: "Single-nucleus RNA-seq Analysis Pipeline for KLF13 (BINP52)"
+version: "1.0.0"
+date-released: 2025-06-01
+authors:
+  - family-names: Veerabhadran
+    given-names: Jyothishree
+    affiliation: Lund University
+url: "https://github.com/jveerabhadran/binp52"
+repository-code: "https://github.com/jveerabhadran/binp52"
+license: MIT
+abstract: >
+  A fully reproducible pipeline for single-nucleus RNA sequencing (snRNA-seq)
+  quality control and downstream analysis, developed as part of the BINP52
+  Master's thesis at Lund University. The pipeline covers ambient RNA correction
+  (SoupX), doublet detection (scDblFinder, Scrublet), normalisation (scran),
+  dimensionality reduction, clustering, cell type annotation, GABAergic
+  neuron subclustering, compositional data analysis, differential expression analysis and GO analysis.
+keywords:
+  - snRNA-seq
+  - bioinformatics
+  - KLF13
+  - Seurat
+  - Scanpy
+  - Python
+  - R
