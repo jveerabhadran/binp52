@@ -67,7 +67,7 @@ binp52/
 ---
 **Pipeline Steps**
 
-| Step | Notebook / Script | Description | Output |
+| Step | Notebook | Description | Output |
 |------|-------------------|-------------|--------|
 | 1 | `quality_filtering` | Mitochondrial/ribosomal/Hb gene annotation, outlier detection, SoupX ambient RNA correction, doublet detection (scDblFinder + Scrublet) | Per-sample QC plots, filtered `.h5ad` |
 | 2 | `normalization` | Scran-based normalisation per sample | Normalised `.h5ad` per sample |
