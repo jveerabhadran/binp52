@@ -121,6 +121,7 @@ Open the notebooks in order (`01_` → `08_`) from the `notebooks/` folder.
 ---
 
 **Data**
+
 A sample raw data (`.csv` count matrices) is included in this repository.
 
 Input format: Each sample is a raw count matrix (genes × cells) in `.csv` format, placed in `Data/`
@@ -161,6 +162,7 @@ This is how a raw count matrix typically looks like. Each row represents a gene,
 
 ---
 **Citation**
+
 If you use this pipeline or code in your work, please cite:
 ```
 Veerabhadran, J. (2026). Single-nucleus RNA-seq Analysis Pipeline for KLF13 (BINP52).
@@ -175,6 +177,7 @@ This project is licensed under the MIT License — see the LICENSE file for deta
 
 ---
 **Contact**
+
 For questions or issues, please open an issue on GitHub or contact:
 Jyothishree Veerabhadran  
 (itsmejyoee@gmail.com)
