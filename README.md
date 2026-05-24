@@ -28,16 +28,8 @@
 
 **Project Overview**
 
-This repository contains a batch-processing pipeline for single-nucleus RNA sequencing (snRNA-seq) data, developed as part of the BINP52 Master's thesis. The pipeline covers all major steps from raw count matrix ingestion to cell type annotation and subcluster analysis, with a focus on:
+This repository contains the full computational pipeline developed for the BINP52 Master's thesis at Lund University, investigating the role of *Klf13* knockout in the embryonic mouse brain using single-nucleus RNA sequencing (snRNA-seq). Starting from raw count matrices, the pipeline progresses through ambient RNA correction (SoupX), doublet detection (scDblFinder and Scrublet), per-sample normalisation (scran), batch-aware concatenation, highly variable gene selection, and dimensionality reduction, before performing Leiden clustering and manual cell type annotation. Downstream analyses include GABAergic neuron subclustering, transcription factor activity scoring, pseudotime trajectory inference, and compositional data analysis (CoDA) to identify cell-type abundance and expressional shifts between knockout and wildtype conditions. The pipeline is built in Python using Scanpy and AnnData, with R-based steps bridged via rpy2 and anndata2ri, and is designed for multi-sample batch processing with pinned dependencies and fixed random seeds to ensure full reproducibility.
 
-- Ambient RNA correction using SoupX
-- Doublet detection using scDblFinder and Scrublet
-- Normalisation and feature selection using scran and Scanpy
-- Dimensionality reduction, clustering, and annotation
-- GABAergic neuron subclustering
-- Compositional data analysis
-- Trajectory analysis
-  
 The pipeline is designed for multi-sample batch processing with robust error handling and clear separation of each analysis step.
 
 ---
@@ -167,6 +159,7 @@ This is how a raw count matrix typically looks like. Each row represents a gene,
 
  - [snRNA-seq Analysis Pipeline](https://www.sc-best-practices.org/)
  - [Cacoa Analysis](https://kkh.bric.ku.dk/xian/pipeline/CPHscPipe/cacoa.html)
+ - [Trajectory Inference using PAGA](https://nbisweden.github.io/workshop-scRNAseq/labs/scanpy/scanpy_07_trajectory.html)
 
 ---
 **Citation**
